@@ -870,14 +870,14 @@ void aw_fel_write_uboot_image(feldev_handle *dev, uint8_t *buf, size_t len)
 
 	image_header_t hdr = *(image_header_t *)buf;
 
-	uint32_t hcrc = be32toh(hdr.ih_hcrc);
+//	uint32_t hcrc = be32toh(hdr.ih_hcrc);
 
 	/* The CRC is calculated on the whole header but the CRC itself */
-	hdr.ih_hcrc = 0;
-	uint32_t computed_hcrc = crc32(0, (const uint8_t *) &hdr, HEADER_SIZE);
-	if (hcrc != computed_hcrc)
-		pr_fatal("U-Boot header CRC mismatch: expected %x, got %x\n",
-			 hcrc, computed_hcrc);
+//	hdr.ih_hcrc = 0;
+//	uint32_t computed_hcrc = crc32(0, (const uint8_t *) &hdr, HEADER_SIZE);
+//	if (hcrc != computed_hcrc)
+//		pr_fatal("U-Boot header CRC mismatch: expected %x, got %x\n",
+//			 hcrc, computed_hcrc);
 
 	/* Check for a valid mkimage header */
 	int image_type = get_image_type(buf, len);
@@ -906,11 +906,11 @@ void aw_fel_write_uboot_image(feldev_handle *dev, uint8_t *buf, size_t len)
 			 "expected %zu bytes, got %u\n",
 			 len - HEADER_SIZE, data_size);
 
-	uint32_t dcrc = be32toh(hdr.ih_dcrc);
-	uint32_t computed_dcrc = crc32(0, buf + HEADER_SIZE, data_size);
-	if (dcrc != computed_dcrc)
-		pr_fatal("U-Boot data CRC mismatch: expected %x, got %x\n",
-			 dcrc, computed_dcrc);
+//	uint32_t dcrc = be32toh(hdr.ih_dcrc);
+//	uint32_t computed_dcrc = crc32(0, buf + HEADER_SIZE, data_size);
+//	if (dcrc != computed_dcrc)
+//		pr_fatal("U-Boot data CRC mismatch: expected %x, got %x\n",
+//			 dcrc, computed_dcrc);
 
 	/* If we get here, we're "good to go" (i.e. actually write the data) */
 	pr_info("Writing image \"%.*s\", %u bytes @ 0x%08X.\n",
